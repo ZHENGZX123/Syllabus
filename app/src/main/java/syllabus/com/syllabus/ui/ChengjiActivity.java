@@ -13,8 +13,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
+import syllabus.com.syllabus.https.IContant;
 
 /**
  * Created by Administrator on 2018/5/8.
@@ -24,6 +31,7 @@ public class ChengjiActivity extends BaseActivity {
     ListView listView;
     JSONArray array = new JSONArray();
     ChengjiAdpater adpater;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,22 @@ public class ChengjiActivity extends BaseActivity {
         }
         adpater = new ChengjiAdpater();
         listView.setAdapter(adpater);
+    }
+
+    public void loadData() {
+        super.loadData();
+        Request request = new Request.Builder()
+                .url(IContant.SCORE)
+                .build();
+        app.okhttp.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+            }
+        });
     }
     public class ChengjiAdpater extends BaseAdapter {
         GongGaoHolder holder;

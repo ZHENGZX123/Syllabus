@@ -25,4 +25,5 @@ public class BaseActivity extends AppCompatActivity {
     public void back(View view) {
         finish();
     }
+    public void loadData(){}
 }

@@ -7,9 +7,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
-import syllabus.com.syllabus.ui.MainActivity;
 import syllabus.com.syllabus.R;
+import syllabus.com.syllabus.https.IContant;
+import syllabus.com.syllabus.ui.MainActivity;
 
 /**
  * Created by Administrator on 2018/5/4.
@@ -35,8 +42,21 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
+        Request request = new Request.Builder()
+                .url(IContant.LOGIN)
+                .build();
+        app.okhttp.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                finish();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        });
     }
 
     public void register(View view) {

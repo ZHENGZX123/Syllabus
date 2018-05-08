@@ -6,11 +6,11 @@ package syllabus.com.syllabus.https;
 
 public class IContant {
     public static final String BASE_URL = "http://localhost:8080/";
-    public static final String LOGIN = "";
-    public static final String REGISTER = "";
-    public static final String SYLLABUS = "";
-    public static final String HOMEWORK = "";
-    public static final String SCORE = "";
-    public static final String BOOKSINFO = "";
-    public static final String CAMPUSBULLETIN = "";
+    public static final String LOGIN = BASE_URL + "login ";//登录
+    public static final String REGISTER = BASE_URL + "register";//注册
+    public static final String SYLLABUS = BASE_URL + "syllabus";//课程表
+    public static final String HOMEWORK = BASE_URL + "homework";//作业
+    public static final String SCORE = BASE_URL + "score";//成绩
+    public static final String BOOKSINFO = BASE_URL + "booksInfo";//书本信息
+    public static final String CAMPUSBULLETIN = BASE_URL + "CampusBulletin";//校园公告
 }

@@ -10,13 +10,19 @@ import com.zhuangfei.timetable.core.SubjectBean;
 import com.zhuangfei.timetable.core.TimetableView;
 import com.zhuangfei.timetable.core.grid.SubjectGridView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
+import syllabus.com.syllabus.https.IContant;
 import syllabus.com.syllabus.model.MySubject;
 import syllabus.com.syllabus.model.MySubjectModel;
 
@@ -46,7 +52,21 @@ public class SyllabusActivity extends BaseActivity implements OnSubjectItemClick
                 .showTimetableView();
         mTimetableView.changeWeek(curWeek, true);
     }
+    public void loadData() {
+        super.loadData();
+        Request request = new Request.Builder()
+                .url(IContant.SYLLABUS)
+                .build();
+        app.okhttp.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+            }
+        });
+    }
     /**
      * Item点击处理
      *

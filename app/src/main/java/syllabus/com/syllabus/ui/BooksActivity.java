@@ -13,9 +13,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
 import syllabus.com.syllabus.Utilis.Utils;
+import syllabus.com.syllabus.https.IContant;
 
 /**
  * Created by Administrator on 2018/5/8.
@@ -45,6 +52,23 @@ public class BooksActivity extends BaseActivity {
         }
         adpater = new BooksAdpater();
         listView.setAdapter(adpater);
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
+        Request request = new Request.Builder()
+                .url(IContant.BOOKSINFO)
+                .build();
+        app.okhttp.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+            }
+        });
     }
 
     public class BooksAdpater extends BaseAdapter {
