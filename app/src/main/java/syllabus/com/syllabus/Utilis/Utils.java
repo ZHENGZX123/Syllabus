@@ -2,6 +2,9 @@ package syllabus.com.syllabus.Utilis;
 
 import android.util.Log;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 /**
  * Created by Administrator on 2018/5/8.
  */
@@ -18,5 +21,16 @@ public class Utils {
         }
         //剩余部分
         Log.e(tag, msg);
+    }
+
+    /*
+    * 将时间戳转换为时间
+    */
+    public static String stampToDate(long s) {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        Date date = new Date(s);
+        res = simpleDateFormat.format(date);
+        return res;
     }
 }

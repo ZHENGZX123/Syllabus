@@ -25,4 +25,10 @@
             android:textColor="@color/_ffffff"
             android:textSize="16sp"/>
     </RelativeLayout>
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/_e5e5e5"
+        android:dividerHeight="1px"></ListView>
 </LinearLayout>

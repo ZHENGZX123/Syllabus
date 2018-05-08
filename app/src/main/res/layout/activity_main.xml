@@ -51,6 +51,20 @@
             android:padding="10dp"
             android:text="作业"
             android:textColor="@color/_333333"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/booke"
+            android:gravity="center"
+            android:onClick="books"
+            android:padding="10dp"
+            android:text="图书信息"
+            android:textColor="@color/_333333"
             android:textSize="12sp"/>
 
         <View
@@ -84,18 +98,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/booke"
-            android:gravity="center"
-            android:onClick="books"
-            android:padding="10dp"
-            android:text="图书信息"
-            android:textColor="@color/_333333"
-            android:textSize="12sp"/>
 
         <View
             android:layout_width="1px"
@@ -114,6 +116,16 @@
             android:text="校园公告"
             android:textColor="@color/_333333"
             android:textSize="12sp"/>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/_e5e5e5"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
         <View
             android:layout_width="1px"
