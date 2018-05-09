@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                String s = response.body().string().toString();
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }

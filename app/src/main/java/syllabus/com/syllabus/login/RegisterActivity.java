@@ -65,6 +65,8 @@ public class RegisterActivity extends BaseActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
                         .commit();
+                //redirect:list  redirect:error
+                String s = response.body().string().toString();
                 finish();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
