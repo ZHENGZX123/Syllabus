@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -65,10 +68,17 @@ public class RegisterActivity extends BaseActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
                         .commit();
-                //redirect:list  redirect:error
-                String s = response.body().string().toString();
-                finish();
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                try {
+                    JSONObject data = new JSONObject(response.body().string().toString());
+                    if (data.optInt("code") == 200) {
+                        app.finishAllAct();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    }else {
+                        toast("注册失败");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
