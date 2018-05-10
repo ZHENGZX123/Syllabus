@@ -15,6 +15,7 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -53,36 +54,44 @@ public class RegisterActivity extends BaseActivity {
             Toast.makeText(this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
             return;
         }
-        RequestBody body = new FormBody.Builder()
-                .add("username", editText2.getText().toString())
-                .add("password", editText.getText().toString()).build();
-        Request request = new Request.Builder()
-                .url(IContant.REGISTER)
-                .post(body)
-                .build();
-        app.okhttp.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s=response.body().string().toString();
-                Logger.log(s);
-                getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
-                        .commit();
-                try {
-                    JSONObject data = new JSONObject(s);
-                    if (data.optInt("code") == 200) {
-                        app.finishAllAct();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    }else {
-                        toast("注册失败");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        try {
+            JSONObject data=new JSONObject();
+            data.put("username",editText2.getText().toString());
+            data.put("password",editText.getText().toString());
+            RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.REGISTER)
+                    .post(requestBody)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s=response.body().string().toString();
+                    Logger.log(s);
+                    getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
+                            .commit();
+                    try {
+                        JSONObject data = new JSONObject(s);
+                        if (data.optInt("code") == 200) {
+                            app.finishAllAct();
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        }else {
+                            toast("注册失败");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (JSONException e) {
+
+        }
+
     }
 }

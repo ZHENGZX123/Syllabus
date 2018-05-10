@@ -67,6 +67,16 @@ public class BooksActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject data = new JSONObject(response.body().string());
+                    if (data.optInt("code") == 200) {
+                        array=data.optJSONArray("");
+                        adpater.notifyDataSetChanged();
+                    } else {
+                    }
+                } catch (JSONException e) {
+
+                }
             }
         });
     }
