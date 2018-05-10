@@ -49,8 +49,8 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         RequestBody body = new FormBody.Builder()
-                .add("userName", editText2.getText().toString())
-                .add("passWord", editText.getText().toString()).build();
+                .add("username", editText2.getText().toString())
+                .add("password", editText.getText().toString()).build();
         Request request = new Request.Builder()
                 .url(IContant.LOGIN)
                 .post(body)
@@ -63,9 +63,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+               String s= response.body().string().toString();
+                Log.e("---",s);
                 try {
-                    JSONObject data = new JSONObject(response.body().string().toString());
-                    Log.e("---",data.toString());
+                    JSONObject data = new JSONObject(s);
                     if (data.optInt("code") == 200) {
                         finish();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));

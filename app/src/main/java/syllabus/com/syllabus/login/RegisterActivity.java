@@ -20,6 +20,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
+import syllabus.com.syllabus.Utilis.Logger;
 import syllabus.com.syllabus.https.IContant;
 
 /**
@@ -53,8 +54,8 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         RequestBody body = new FormBody.Builder()
-                .add("userName", editText2.getText().toString())
-                .add("passWord", editText.getText().toString()).build();
+                .add("username", editText2.getText().toString())
+                .add("password", editText.getText().toString()).build();
         Request request = new Request.Builder()
                 .url(IContant.REGISTER)
                 .post(body)
@@ -66,10 +67,12 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                String s=response.body().string().toString();
+                Logger.log(s);
                 getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
                         .commit();
                 try {
-                    JSONObject data = new JSONObject(response.body().string().toString());
+                    JSONObject data = new JSONObject(s);
                     if (data.optInt("code") == 200) {
                         app.finishAllAct();
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
