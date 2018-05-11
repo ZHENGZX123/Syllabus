@@ -45,7 +45,7 @@ public class MySubjectParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Utils.e("---",new Gson().toJson(courses));
+        Utils.e("---", new Gson().toJson(courses));
         return courses;
     }
 
@@ -63,6 +63,32 @@ public class MySubjectParser {
         }
         return weekList;
     }
+
+    public static List<Integer> getWeekList() {
+        List<Integer> weekList = new ArrayList<>();
+        weekList.add(1);
+        weekList.add(2);
+        weekList.add(3);
+        weekList.add(4);
+        weekList.add(5);
+        weekList.add(6);
+        weekList.add(7);
+        weekList.add(8);
+        weekList.add(9);
+        weekList.add(10);
+        weekList.add(12);
+        weekList.add(13);
+        weekList.add(14);
+        weekList.add(15);
+        weekList.add(16);
+        weekList.add(17);
+        weekList.add(18);
+        weekList.add(19);
+        weekList.add(20);
+
+        return weekList;
+    }
+
 
     public static List<Integer> getWeekList2(String weeksString) {
         List<Integer> weekList = new ArrayList<>();

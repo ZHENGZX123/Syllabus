@@ -10,7 +10,8 @@ public class IContant {
     public static final String REGISTER = BASE_URL + "auser/register";//注册
 
 
-    public static final String SYLLABUS = BASE_URL + "syllabus";//课程表
+    public static final String CREATE_SYLLABUS = BASE_URL + "syllabus/add";//课程表
+    public static final String SYLLABUS = BASE_URL + "syllabus/list";
 
 
     public static final String HOMEWORK = BASE_URL + "homework";//作业

@@ -146,8 +146,8 @@ public class GongGaoActivity extends BaseActivity {
             JSONObject item = array.optJSONObject(position);
             holder.content.setText(item.optString("content"));
             holder.title.setText(item.optString("theme"));
-            holder.time.setText("發佈時間："+item.optString("create_time").split("T")[0]);
-            holder.userName.setText("發佈者: "+item.optString("user_name"));
+            holder.time.setText("发布时间:"+item.optString("create_time").split("T")[0]);
+            holder.userName.setText("发布者: "+item.optString("user_name"));
             return view;
         }
 

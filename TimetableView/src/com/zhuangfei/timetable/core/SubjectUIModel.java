@@ -256,7 +256,7 @@ public class SubjectUIModel {
 				TextView textView = (TextView) view.findViewById(R.id.id_course_item_course);
 				TextView countTextView = (TextView) view.findViewById(R.id.id_course_item_count);
 				textView.setBackgroundResource(getBackgroundByRandom(subject.getColorRandom()));
-				textView.setText(subject.getName() + "@" + subject.getRoom());
+				textView.setText(subject.getName() + "\n" + subject.getRoom());
 				countTextView.setText("");
 				countTextView.setVisibility(View.GONE);
 				if (!SubjectUtils.isThisWeek(subject, curWeek)) {
