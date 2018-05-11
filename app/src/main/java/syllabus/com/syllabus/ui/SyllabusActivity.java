@@ -101,26 +101,27 @@ public class SyllabusActivity extends BaseActivity {
                         subjectBeans = new ArrayList<>();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.optJSONObject(i);
+                            int part = item.optInt("part");
                             if (!item.optString("mon_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), item.optInt("part"), 1));
+                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), part, 1));
                             }
                             if (!item.optString("tues_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), item.optInt("part"),  2));
+                                subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), part, 2));
                             }
                             if (!item.optString("wed_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), item.optInt("part"), 3));
+                                subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), part, 3));
                             }
                             if (!item.optString("thurs_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), item.optInt("part"), 4));
+                                subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), part, 4));
                             }
                             if (!item.optString("fir_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("fir_class_name") ,item.optInt("part"), 5));
+                                subjectBeans.add(new SubjectBean(item.optString("fir_class_name"), part, 5));
                             }
                             if (!item.optString("sat_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("sat_class_name"),item.optInt("part"), 6));
+                                subjectBeans.add(new SubjectBean(item.optString("sat_class_name"), part, 6));
                             }
                             if (!item.optString("sun_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("sun_class_name"),item.optInt("part"),  7));
+                                subjectBeans.add(new SubjectBean(item.optString("sun_class_name"), part, 7));
                             }
                         }
                     }
