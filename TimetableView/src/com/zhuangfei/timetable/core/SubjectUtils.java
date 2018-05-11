@@ -122,9 +122,10 @@ public class SubjectUtils {
 	 * @return
 	 */
 	public static boolean isThisWeek(SubjectBean subject,int cur_week) {
-		List<Integer> weekList=subject.getWeekList();
-		if(weekList.indexOf(cur_week)!=-1) return true;
-		return false;
+		return true;
+//		List<Integer> weekList=subject.getWeekList();
+//		if(weekList.indexOf(cur_week)!=-1) return true;
+//		return false;
 	}
 	
 	/**

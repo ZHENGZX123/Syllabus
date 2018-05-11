@@ -85,7 +85,6 @@ public class MySubjectParser {
         weekList.add(18);
         weekList.add(19);
         weekList.add(20);
-
         return weekList;
     }
 

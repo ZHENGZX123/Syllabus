@@ -27,7 +27,6 @@ import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
 import syllabus.com.syllabus.https.IContant;
-import syllabus.com.syllabus.model.MySubjectParser;
 
 /**
  * Created by Administrator on 2018/5/7.
@@ -103,32 +102,25 @@ public class SyllabusActivity extends BaseActivity {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.optJSONObject(i);
                             if (!item.optString("mon_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 1, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), item.optInt("part"), 1));
                             }
                             if (!item.optString("tues_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 2, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), item.optInt("part"),  2));
                             }
                             if (!item.optString("wed_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 3, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), item.optInt("part"), 3));
                             }
                             if (!item.optString("thurs_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 4, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), item.optInt("part"), 4));
                             }
                             if (!item.optString("fir_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 5, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("fir_class_name") ,item.optInt("part"), 5));
                             }
                             if (!item.optString("sat_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 6, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("sat_class_name"),item.optInt("part"), 6));
                             }
                             if (!item.optString("sun_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), "", "",
-                                        MySubjectParser.getWeekList(), item.optInt("part"), 1, 7, 0, ""));
+                                subjectBeans.add(new SubjectBean(item.optString("sun_class_name"),item.optInt("part"),  7));
                             }
                         }
                     }

@@ -67,14 +67,27 @@ public class SubjectBean implements Serializable{
 		this.name = name;
 		this.room = room;
 		this.teacher = teacher;
-		this.weekList = weekList;
 		this.start = start;
 		this.step = step;
 		this.day = day;
 		this.colorRandom = colorRandom;
+		this.weekList = weekList;
 		this.time=time;
 	}
-	
+
+	public SubjectBean(String name,int start,  int day) {
+		super();
+		this.name = name;
+		this.room = "";
+		this.teacher = "";
+		this.weekList = null;
+		this.start = start;
+		this.step = 1;
+		this.day = day;
+		this.colorRandom = 0;
+	}
+
+
 	public SubjectBean(String name, String room, String teacher,
 			List<Integer> weekList, int start, int step, int day,
 			int colorRandom) {
@@ -118,7 +131,7 @@ public class SubjectBean implements Serializable{
 	public void setWeekList(List<Integer> weekList) {
 		this.weekList = weekList;
 	}
-	
+
 	public List<Integer> getWeekList() {
 		return weekList;
 	}
