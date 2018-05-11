@@ -30,6 +30,7 @@ import syllabus.com.syllabus.https.IContant;
 
 /**
  * Created by Administrator on 2018/5/8.
+ * 校园公告
  */
 
 public class GongGaoActivity extends BaseActivity {
@@ -48,35 +49,7 @@ public class GongGaoActivity extends BaseActivity {
     }
 
 
-    public void check(View view) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("theme", "尋物啟事");
-            data.put("content", "默默上課是卡路徑上課啦是放假設計師是的克里斯的防守打法");
-            data.put("user_name", getSharedPreferences("syllabus", 0).getString
-                    ("userName", ""));
-            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                    , data.toString());
-            Request request = new Request.Builder()
-                    .url(IContant.CREATE_CAMPUSBULLETIN)
-                    .post(body)
-                    .build();
-            app.okhttp.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e("---", e.toString());
-                }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string().toString();
-                    Log.e("---", s);
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void loadData() {
         super.loadData();
@@ -155,7 +128,36 @@ public class GongGaoActivity extends BaseActivity {
             TextView title, content, time,userName;
         }
     }
-    public void back(View view) {
-        finish();
+
+
+
+    public void check(View view) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("theme", "尋物啟事");
+            data.put("content", "默默上課是卡路徑上課啦是放假設計師是的克里斯的防守打法");
+            data.put("user_name", getSharedPreferences("syllabus", 0).getString
+                    ("userName", ""));
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.CREATE_CAMPUSBULLETIN)
+                    .post(body)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("---", e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string().toString();
+                    Log.e("---", s);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,7 +5,8 @@ package syllabus.com.syllabus.https;
  */
 
 public class IContant {
-    public static final String BASE_URL = "http://192.168.8.51:8080/";
+   // public static final String BASE_URL = "http://192.168.8.51:8080/";
+    public static final String BASE_URL = "http://192.168.0.105:8080/";
     public static final String LOGIN = BASE_URL + "auser/login";//登录
     public static final String REGISTER = BASE_URL + "auser/register";//注册
 

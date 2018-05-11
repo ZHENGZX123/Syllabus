@@ -29,6 +29,7 @@ import syllabus.com.syllabus.https.IContant;
 
 /**
  * Created by Administrator on 2018/5/8.
+ * 成绩
  */
 
 public class ChengjiActivity extends BaseActivity {
@@ -47,35 +48,7 @@ public class ChengjiActivity extends BaseActivity {
     }
 
 
-    public void check(View view) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("subject_name", "語文");
-            data.put("score", 12);
-            data.put("user_name", getSharedPreferences("syllabus", 0).getString
-                    ("userName", ""));
-            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                    , data.toString());
-            Request request = new Request.Builder()
-                    .url(IContant.CREATE_SCORE)
-                    .post(body)
-                    .build();
-            app.okhttp.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e("---", e.toString());
-                }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string().toString();
-                    Log.e("---", s);
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void loadData() {
@@ -159,7 +132,35 @@ public class ChengjiActivity extends BaseActivity {
             TextView name, score;
         }
     }
-    public void back(View view) {
-        finish();
+
+
+    public void check(View view) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("subject_name", "語文");
+            data.put("score", 12);
+            data.put("user_name", getSharedPreferences("syllabus", 0).getString
+                    ("userName", ""));
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.CREATE_SCORE)
+                    .post(body)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("---", e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string().toString();
+                    Log.e("---", s);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

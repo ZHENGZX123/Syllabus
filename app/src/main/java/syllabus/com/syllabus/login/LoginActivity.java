@@ -27,6 +27,7 @@ import syllabus.com.syllabus.ui.MainActivity;
 
 /**
  * Created by Administrator on 2018/5/4.
+ * 登陆页
  */
 
 public class LoginActivity extends BaseActivity {
@@ -74,10 +75,11 @@ public class LoginActivity extends BaseActivity {
                     try {
                         JSONObject data = new JSONObject(s);
                         if (data.optInt("code") == 200) {
+                            toast("登录成功");
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
-                            toast("登录失败");
+                            toast("登录失败，请检查用户名密码");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

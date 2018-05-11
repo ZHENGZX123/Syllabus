@@ -10,12 +10,6 @@
         android:layout_height="40dp"
         android:background="#00baff">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:onClick="back"
-            android:padding="5dp"
-            android:src="@drawable/ic_keyboard_arrow_left"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -25,6 +19,13 @@
             android:onClick="check"
             android:textColor="@color/_ffffff"
             android:textSize="16sp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:onClick="back"
+            android:padding="5dp"
+            android:src="@drawable/ic_keyboard_arrow_left"/>
+
     </RelativeLayout>
     <ListView
         android:id="@+id/listview"

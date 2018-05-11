@@ -26,6 +26,7 @@ import syllabus.com.syllabus.https.IContant;
 
 /**
  * Created by Administrator on 2018/5/7.
+ * 注册页
  */
 
 public class RegisterActivity extends BaseActivity {
@@ -79,6 +80,7 @@ public class RegisterActivity extends BaseActivity {
                     try {
                         JSONObject data = new JSONObject(s);
                         if (data.optInt("code") == 200) {
+                            toast("注册成功，请重新登录");
                             app.finishAllAct();
                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         } else {
