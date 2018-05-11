@@ -49,17 +49,15 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
         try {
             JSONObject data = new JSONObject();
             data.put("username", editText2.getText().toString());
             data.put("password", editText.getText().toString());
-            RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
                     , data.toString());
             Request request = new Request.Builder()
                     .url(IContant.LOGIN)
-                    .post(requestBody)
+                    .post(body)
                     .build();
             app.okhttp.newCall(request).enqueue(new Callback() {
                 @Override
@@ -71,13 +69,15 @@ public class LoginActivity extends BaseActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string().toString();
                     Log.e("---", s);
+                    getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
+                            .commit();
                     try {
                         JSONObject data = new JSONObject(s);
                         if (data.optInt("code") == 200) {
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
-                            toast("用户名或密码错误");
+                            toast("登录失败");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

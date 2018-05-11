@@ -3,6 +3,7 @@ package syllabus.com.syllabus.Utilis;
 import android.util.Log;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -31,6 +32,21 @@ public class Utils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         Date date = new Date(s);
         res = simpleDateFormat.format(date);
+        return res;
+    }
+
+    /*
+  * 将时间戳转换为时间
+  */
+    public static String stampToDate(String s) {
+        String res="";
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            Date date = (Date) simpleDateFormat.parse(s);
+            res = simpleDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return res;
     }
 }

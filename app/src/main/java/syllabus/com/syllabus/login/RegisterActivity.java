@@ -56,14 +56,14 @@ public class RegisterActivity extends BaseActivity {
         }
 
         try {
-            JSONObject data=new JSONObject();
-            data.put("username",editText2.getText().toString());
-            data.put("password",editText.getText().toString());
-            RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+            JSONObject data = new JSONObject();
+            data.put("username", editText2.getText().toString());
+            data.put("password", editText.getText().toString());
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
                     , data.toString());
             Request request = new Request.Builder()
                     .url(IContant.REGISTER)
-                    .post(requestBody)
+                    .post(body)
                     .build();
             app.okhttp.newCall(request).enqueue(new Callback() {
                 @Override
@@ -72,7 +72,7 @@ public class RegisterActivity extends BaseActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    String s=response.body().string().toString();
+                    String s = response.body().string().toString();
                     Logger.log(s);
                     getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
                             .commit();
@@ -81,7 +81,7 @@ public class RegisterActivity extends BaseActivity {
                         if (data.optInt("code") == 200) {
                             app.finishAllAct();
                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        }else {
+                        } else {
                             toast("注册失败");
                         }
                     } catch (JSONException e) {
@@ -90,8 +90,7 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
-
     }
 }

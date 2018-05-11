@@ -2,35 +2,37 @@ package syllabus.com.syllabus.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.zhuangfei.timetable.core.OnSubjectItemClickListener;
 import com.zhuangfei.timetable.core.SubjectBean;
 import com.zhuangfei.timetable.core.TimetableView;
 import com.zhuangfei.timetable.core.grid.SubjectGridView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
 import syllabus.com.syllabus.https.IContant;
-import syllabus.com.syllabus.model.MySubject;
-import syllabus.com.syllabus.model.MySubjectModel;
 
 /**
  * Created by Administrator on 2018/5/7.
  */
 
-public class SyllabusActivity extends BaseActivity implements OnSubjectItemClickListener {
+public class SyllabusActivity extends BaseActivity {
     TimetableView mTimetableView;
     private List<SubjectBean> subjectBeans;
     private int curWeek = 1;
@@ -40,18 +42,46 @@ public class SyllabusActivity extends BaseActivity implements OnSubjectItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiy_syllabus);
         mTimetableView = (TimetableView) findViewById(R.id.id_timetableView);
-        subjectBeans = transform(MySubjectModel.loadDefaultSubjects());
-        //使用默认的参数构造一个网格View,默认灰色
-        SubjectGridView gridView=new SubjectGridView(this);
-        mTimetableView.setDataSource(subjectBeans)
-                .setCurTerm("大三上学期")
-                .setCurWeek(curWeek)
-                .setMax(true)
-                .setBottomLayer(gridView)
-                .setOnSubjectItemClickListener(this)
-                .showTimetableView();
-        mTimetableView.changeWeek(curWeek, true);
+
+        loadData();
     }
+
+    public void check(View view) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("mon_class_name", "星期一課程2");
+            data.put("tues_class_name", "星期二課程2");
+            data.put("wed_class_name", "星期三課程2");
+            data.put("thurs_class_name", "星期四課程2");
+            data.put("fir_class_name", "星期五課程2");
+            data.put("sat_class_name", "星期六課程2");
+            data.put("sun_class_name", "星期日課程2");
+            data.put("part", 2);
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.CREATE_SYLLABUS)
+                    .post(body)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("---", e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string().toString();
+                    Log.e("---", s);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public void loadData() {
         super.loadData();
         Request request = new Request.Builder()
@@ -64,61 +94,56 @@ public class SyllabusActivity extends BaseActivity implements OnSubjectItemClick
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject data = new JSONObject(response.body().string());
+                    if (data.optInt("code") == 200) {
+                        JSONArray array = data.optJSONArray("data");
+                        subjectBeans = new ArrayList<>();
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject item = array.optJSONObject(i);
+                            int part = item.optInt("part");
+                            if (!item.optString("mon_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), part, 1));
+                            }
+                            if (!item.optString("tues_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), part, 2));
+                            }
+                            if (!item.optString("wed_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), part, 3));
+                            }
+                            if (!item.optString("thurs_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), part, 4));
+                            }
+                            if (!item.optString("fir_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("fir_class_name"), part, 5));
+                            }
+                            if (!item.optString("sat_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("sat_class_name"), part, 6));
+                            }
+                            if (!item.optString("sun_class_name").equals("")) {
+                                subjectBeans.add(new SubjectBean(item.optString("sun_class_name"), part, 7));
+                            }
+                        }
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //使用默认的参数构造一个网格View,默认灰色
+                            SubjectGridView gridView = new SubjectGridView(SyllabusActivity.this);
+                            mTimetableView.setDataSource(subjectBeans)
+                                    .setCurTerm("大三上学期")
+                                    .setCurWeek(curWeek)
+                                    .setMax(true)
+                                    .setBottomLayer(gridView)
+                                    .showTimetableView();
+                            mTimetableView.changeWeek(curWeek, true);
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
-    /**
-     * Item点击处理
-     *
-     * @param subjectList 该Item处的课程集合
-     */
-    @Override
-    public void onItemClick(View v, List<SubjectBean> subjectList) {
-        int size = subjectList.size();
-        String subjectStr = "";
-        for (int i = 0; i < size; i++) {
-            SubjectBean bean = subjectList.get(i);
-            subjectStr += bean.getName() + "\n";
-            subjectStr += "上课周次:" + bean.getWeekList().toString() + "\n";
-            subjectStr += "时间:周" + bean.getDay() + "," + bean.getStart() + "至" + (bean.getStart() + bean.getStep() -
-                    1) + "节上";
-            if (i != (size - 1)) {
-                subjectStr += "\n########\n";
-            }
-        }
-        subjectStr += "\n";
-        Toast.makeText(this, "该时段有" + size + "门课\n\n" + subjectStr, Toast.LENGTH_SHORT).show();
-    }
 
-    /**
-     * 自定义转换规则,将自己的课程对象转换为所需要的对象集合
-     *
-     * @param mySubjects
-     * @return
-     */
-    public List<SubjectBean> transform(List<MySubject> mySubjects) {
-        //待返回的集合
-        List<SubjectBean> subjectBeans = new ArrayList<>();
-        //保存课程名、颜色的对应关系
-        Map<String, Integer> colorMap = new HashMap<>();
-        int colorCount = 1;
-        //开始转换
-        for (int i = 0; i < mySubjects.size(); i++) {
-            MySubject mySubject = mySubjects.get(i);
-            //计算课程颜色
-            int color;
-            if (colorMap.containsKey(mySubject.getName())) {
-                color = colorMap.get(mySubject.getName());
-            } else {
-                colorMap.put(mySubject.getName(), colorCount);
-                color = colorCount;
-                colorCount++;
-            }
-            //转换
-            subjectBeans.add(new SubjectBean(mySubject.getName(), mySubject.getRoom(), mySubject.getTeacher(),
-                    mySubject.getWeekList(),
-                    mySubject.getStart(), mySubject.getStep(), mySubject.getDay(), color, mySubject.getTime()));
-        }
-        return subjectBeans;
-    }
 }
