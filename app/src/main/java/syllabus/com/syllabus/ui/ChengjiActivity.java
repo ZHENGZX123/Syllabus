@@ -2,6 +2,7 @@ package syllabus.com.syllabus.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,10 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
@@ -37,21 +41,43 @@ public class ChengjiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chengji);
         listView = (ListView) findViewById(R.id.listview);
-        for (int i = 0; i < 10; i++) {
-            JSONObject item = new JSONObject();
-            try {
-                item.put("subject_name", "数学");
-                item.put("score", "70");
-                item.put("create_time", System.currentTimeMillis());
-                array.put(item);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
         adpater = new ChengjiAdpater();
         listView.setAdapter(adpater);
+        loadData();
     }
 
+
+    public void check(View view) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("subject_name", "語文");
+            data.put("score", 12);
+            data.put("user_name", getSharedPreferences("syllabus", 0).getString
+                    ("userName", ""));
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.CREATE_SCORE)
+                    .post(body)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("---", e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string().toString();
+                    Log.e("---", s);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void loadData() {
         super.loadData();
         Request request = new Request.Builder()
@@ -64,9 +90,32 @@ public class ChengjiActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject data = new JSONObject(response.body().string());
+                    if (data.optInt("code") == 200) {
+                        JSONArray array1 = data.optJSONArray("data");
+                        array = new JSONArray();
+                        for (int i = 0; i < array1.length(); i++) {
+                            JSONObject item = array1.optJSONObject(i);
+                            if (item.optString("user_name").equals(getSharedPreferences("syllabus", 0).getString
+                                    ("userName", ""))) {
+                                array.put(item);
+                            }
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adpater.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
+
     public class ChengjiAdpater extends BaseAdapter {
         GongGaoHolder holder;
 
@@ -109,5 +158,8 @@ public class ChengjiActivity extends BaseActivity {
         public class GongGaoHolder {
             TextView name, score;
         }
+    }
+    public void back(View view) {
+        finish();
     }
 }

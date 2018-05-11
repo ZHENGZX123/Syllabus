@@ -2,6 +2,7 @@ package syllabus.com.syllabus.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,13 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import syllabus.com.syllabus.BaseActivity;
 import syllabus.com.syllabus.R;
-import syllabus.com.syllabus.Utilis.Utils;
 import syllabus.com.syllabus.https.IContant;
 
 /**
@@ -37,22 +40,42 @@ public class BooksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
         listView = (ListView) findViewById(R.id.listview);
-        for (int i = 0; i < 10; i++) {
-            JSONObject item = new JSONObject();
-            try {
-                item.put("book_name", "佛列巡游记");
-                item.put("book_code", "斯柯达房间卡萨荆防颗粒建安费几十块老地方就开始放假寄顺丰卡拉胶风口浪尖");
-                item.put("borrow_name", "郭煜");
-                item.put("borrow_time", System.currentTimeMillis());
-                item.put("borrow_num", "2000万");
-                array.put(item);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
         adpater = new BooksAdpater();
         listView.setAdapter(adpater);
+        loadData();
     }
+
+    public void check(View view) {
+        try {
+            JSONObject data = new JSONObject();
+            data.put("book_name", "格列佛遊記");
+            data.put("book_code", "1233");
+            data.put("borrow_name","格列佛");
+            data.put("borrow_num","200");
+            data.put("give_name","zz");
+            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                    , data.toString());
+            Request request = new Request.Builder()
+                    .url(IContant.CREATE_BOOKSINFO)
+                    .post(body)
+                    .build();
+            app.okhttp.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("---", e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string().toString();
+                    Log.e("---", s);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void loadData() {
@@ -67,6 +90,21 @@ public class BooksActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    JSONObject data = new JSONObject(response.body().string());
+                    if (data.optInt("code") == 200) {
+                        array  = data.optJSONArray("data");
+                        Log.e("---", array.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adpater.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -111,7 +149,7 @@ public class BooksActivity extends BaseActivity {
             holder.name.setText(item.optString("book_name"));
             holder.aour.setText("作者:"+item.optString("borrow_name"));
             holder.num.setText("销量："+item.optString("borrow_num"));
-            holder.time.setText("出版时间"+Utils.stampToDate(item.optLong("borrow_time")));
+            holder.time.setText("出版時間:"+item.optString("borrow_time").split("T")[0]);
             holder.content.setText(item.optString("book_code"));
             return view;
         }
@@ -119,5 +157,8 @@ public class BooksActivity extends BaseActivity {
         public class BooksHolder {
             TextView name, aour, num, time, content;
         }
+    }
+    public void back(View view) {
+        finish();
     }
 }
