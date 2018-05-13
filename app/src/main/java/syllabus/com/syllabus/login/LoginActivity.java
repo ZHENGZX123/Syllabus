@@ -70,14 +70,17 @@ public class LoginActivity extends BaseActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string().toString();
                     Log.e("---", s);
-                    getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
-                            .commit();
+
                     try {
                         JSONObject data = new JSONObject(s);
                         if (data.optInt("code") == 200) {
                             toast("登录成功");
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            getSharedPreferences("syllabus", 0).edit().putString("userName", editText2.getText().toString())
+                                    .commit();
+                            getSharedPreferences("syllabus", 0).edit().putInt("college", data.optJSONObject("data").optInt("college_id"))
+                                    .commit();
                         } else {
                             toast("登录失败，请检查用户名密码");
                         }

@@ -27,4 +27,7 @@ public class IContant {
 
     public static final String CREATE_BOOKSINFO = BASE_URL + "books/add";//书本信息
     public static final String BOOKSINFO = BASE_URL + "books/list";//书本信息
+
+
+ public static final String GET_REGISTER=BASE_URL+"college/list";
 }

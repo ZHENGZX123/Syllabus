@@ -112,6 +112,7 @@ public class BooksActivity extends BaseActivity {
                 holder.aour = (TextView) view.findViewById(R.id.aour);
                 holder.num = (TextView) view.findViewById(R.id.num);
                 holder.time = (TextView) view.findViewById(R.id.time);
+                holder.staute= (TextView) view.findViewById(R.id.staute);
                 holder.content = (TextView) view.findViewById(R.id.content);
                 view.setTag(holder);
             } else {
@@ -119,47 +120,24 @@ public class BooksActivity extends BaseActivity {
             }
             JSONObject item = array.optJSONObject(position);
             holder.name.setText(item.optString("book_name"));
-            holder.aour.setText("作者:" + item.optString("borrow_name"));
-            holder.num.setText("销量：" + item.optString("borrow_num"));
-            holder.time.setText("出版時間:" + item.optString("borrow_time").split("T")[0]);
-            holder.content.setText(item.optString("book_code"));
+            holder.num.setText("借阅次数:" + item.optInt("borrow_num"));
+            holder.content.setText("编号:"+item.optString("book_code"));
+            if (item.optInt("state")==1){
+                holder.staute.setText("待借阅");
+                holder.aour.setText("还书人:" + item.optString("borrow_name"));
+                holder.time.setText("还书时间:" + item.optString("give_time").replace("T","").replace(".000+0000",""));
+            }else {
+                holder.staute.setText("已借阅");
+                holder.aour.setText("借阅人:" + item.optString("borrow_name"));
+                holder.time.setText("借阅时间:" + item.optString("borrow_time").replace("T","").replace(".000+0000",""));
+            }
             return view;
         }
 
         public class BooksHolder {
-            TextView name, aour, num, time, content;
+            TextView name, aour, num, time, content,staute;
         }
     }
 
-    public void check(View view) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("book_name", "格列佛遊記");
-            data.put("book_code", "1233");
-            data.put("borrow_name", "格列佛");
-            data.put("borrow_num", "200");
-            data.put("give_name", "zz");
-            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                    , data.toString());
-            Request request = new Request.Builder()
-                    .url(IContant.CREATE_BOOKSINFO)
-                    .post(body)
-                    .build();
-            app.okhttp.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e("---", e.toString());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string().toString();
-                    Log.e("---", s);
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

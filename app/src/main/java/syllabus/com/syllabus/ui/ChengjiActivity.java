@@ -68,7 +68,7 @@ public class ChengjiActivity extends BaseActivity {
                     if (data.optInt("code") == 200) {
                         JSONArray array1 = data.optJSONArray("data");
                         array = new JSONArray();
-                        for (int i = 0; i < array1.length(); i++) {
+                        for (int i = 0; i < array1.length(); i++) {//过了不是自己的成绩
                             JSONObject item = array1.optJSONObject(i);
                             if (item.optString("user_name").equals(getSharedPreferences("syllabus", 0).getString
                                     ("userName", ""))) {

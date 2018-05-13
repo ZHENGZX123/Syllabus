@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="成绩"
-            android:onClick="check"
             android:textColor="@color/_ffffff"
             android:textSize="16sp"/>
         <ImageView

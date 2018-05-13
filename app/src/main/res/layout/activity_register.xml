@@ -57,20 +57,42 @@
         android:textColorHint="@color/_666666"
         android:textSize="16sp"/>
 
-    <EditText
-        android:id="@+id/editText3"
+    <TextView
+        android:id="@+id/juese"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:text="角色"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@drawable/login"
         android:layout_gravity="center_horizontal"
+        android:textColor="@color/_333333"
+        android:onClick="juese"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/xueyuan"
+        android:layout_width="200dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/login"
-        android:ems="10"
-        android:hint="请再次输入密码"
-        android:inputType="textPassword"
-        android:padding="10dp"
+        android:text="学院"
+        android:onClick="college"
+        android:layout_gravity="center_horizontal"
         android:textColor="@color/_333333"
-        android:textColorHint="@color/_666666"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/zhuangyuan"
+        android:layout_width="200dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login"
+        android:text="专业"
+android:onClick="oaClasses"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/_333333"
+        android:textSize="14sp"/>
 
     <Button
         android:id="@+id/button"
@@ -82,4 +104,5 @@
         android:onClick="Register"
         android:text="注册"
         android:textSize="14dp"/>
+
 </LinearLayout>

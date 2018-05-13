@@ -48,7 +48,6 @@ public class SyllabusActivity extends BaseActivity {
     }
 
 
-
     public void loadData() {
         super.loadData();
         Request request = new Request.Builder()
@@ -68,27 +67,29 @@ public class SyllabusActivity extends BaseActivity {
                         subjectBeans = new ArrayList<>();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject item = array.optJSONObject(i);
-                            int part = item.optInt("part");
-                            if (!item.optString("mon_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), part, 1));
-                            }
-                            if (!item.optString("tues_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), part, 2));
-                            }
-                            if (!item.optString("wed_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), part, 3));
-                            }
-                            if (!item.optString("thurs_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), part, 4));
-                            }
-                            if (!item.optString("fir_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("fir_class_name"), part, 5));
-                            }
-                            if (!item.optString("sat_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("sat_class_name"), part, 6));
-                            }
-                            if (!item.optString("sun_class_name").equals("")) {
-                                subjectBeans.add(new SubjectBean(item.optString("sun_class_name"), part, 7));
+                            if (item.optInt("college_id") == getSharedPreferences("syllabus", 0).getInt("college", 0)) {
+                                int part = item.optInt("part");
+                                if (!item.optString("mon_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("mon_class_name"), part, 1));
+                                }
+                                if (!item.optString("tues_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("tues_class_name"), part, 2));
+                                }
+                                if (!item.optString("wed_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("wed_class_name"), part, 3));
+                                }
+                                if (!item.optString("thurs_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("thurs_class_name"), part, 4));
+                                }
+                                if (!item.optString("fir_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("fir_class_name"), part, 5));
+                                }
+                                if (!item.optString("sat_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("sat_class_name"), part, 6));
+                                }
+                                if (!item.optString("sun_class_name").equals("")) {
+                                    subjectBeans.add(new SubjectBean(item.optString("sun_class_name"), part, 7));
+                                }
                             }
                         }
                     }
@@ -111,40 +112,6 @@ public class SyllabusActivity extends BaseActivity {
                 }
             }
         });
-    }
-    public void check(View view) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("mon_class_name", "星期一課程2");
-            data.put("tues_class_name", "星期二課程2");
-            data.put("wed_class_name", "星期三課程2");
-            data.put("thurs_class_name", "星期四課程2");
-            data.put("fir_class_name", "星期五課程2");
-            data.put("sat_class_name", "星期六課程2");
-            data.put("sun_class_name", "星期日課程2");
-            data.put("part", 2);
-            RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                    , data.toString());
-            Request request = new Request.Builder()
-                    .url(IContant.CREATE_SYLLABUS)
-                    .post(body)
-                    .build();
-            app.okhttp.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e("---", e.toString());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string().toString();
-                    Log.e("---", s);
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
 }
